@@ -19,15 +19,15 @@ module "SRA" {
   resource_owner  = var.resource_owner
 
   // Account - general
-  enable_logging_boolean = false // Logging configuration - set to true if you'd like to set-up billing and audit log delivery to an S3 bucket. System tables can be used as an alternative with no set-up.
-  user_workspace_admin   = null  // REQUIRED - Admin workspace user (e.g. firstname.lastname@company.com)
+  enable_logging_boolean = false                                      // Logging configuration - set to true if you'd like to set-up billing and audit log delivery to an S3 bucket. System tables can be used as an alternative with no set-up.
+  user_workspace_admin   = "thomas.loeber73+aws-databricks@gmail.com" // REQUIRED - Admin workspace user (e.g. firstname.lastname@company.com)
 
   // Account - Unity Catalog:
   metastore_id            = null // Metastore configuration - leave null if there is no existing regional metastore, does not create a root storage location
   metastore_name          = join("", [var.resource_prefix, "-", var.region, "-", "uc"])
-  data_bucket             = null // REQUIRED - Existing S3 bucket name (e.g. data-bucket-s3-test)
-  workspace_catalog_admin = null // REQUIRED - Workspace specific catalogs are created, this user will become an admin of that catalog (e.g. firstname.lastname@company.com)
-  external_location_admin = null // REQUIRED - Read-only external location is created, this user will become an admin of that exteranl location (e.g. firstname.lastname@company.com)
+  data_bucket             = "sra-data-bucket"                          // REQUIRED - Existing S3 bucket name (e.g. data-bucket-s3-test)
+  workspace_catalog_admin = "thomas.loeber73+aws-databricks@gmail.com" // REQUIRED - Workspace specific catalogs are created, this user will become an admin of that catalog (e.g. firstname.lastname@company.com)
+  external_location_admin = "thomas.loeber73+aws-databricks@gmail.com" // REQUIRED - Read-only external location is created, this user will become an admin of that exteranl location (e.g. firstname.lastname@company.com)
 
   // Workspace - operation mode:
   operation_mode              = "sandbox" // REQUIRED - Accepted values: sandbox, custom, firewall, or isolated. https://github.com/databricks/terraform-databricks-sra/blob/main/aws/tf/README.md#operation-mode
@@ -38,7 +38,7 @@ module "SRA" {
   cmk_admin_arn                    = null  // If not provided, the root user of the AWS account is used
   enable_cluster_boolean           = false // WARNING: Clusters will spin-up Databricks clusters and AWS EC2 instances
   enable_admin_configs             = false // WARNING: The workspace_conf resource is evolving API that may change from provider to provider. Please review the in-resource documentation (admin_configuration.tf) before enabling.
-  workspace_service_principal_name = "sra-example-sp"
+  workspace_service_principal_name = "sra-default-sp"
 
   // Workspace - networking variables (optional if using custom operation mode):
   vpc_cidr_range           = "10.0.0.0/18"
@@ -76,7 +76,7 @@ module "SRA" {
   ip_addresses      = ["X.X.X.X", "X.X.X.X/XX", "X.X.X.X/XX"] // WARNING: Please validate that IPs entered are correct, recommend setting a break glass IP in case of a lockout
 
   // Public Preview - System Tables Schemas (optional, if system tables audit log alerting is set to true and system table schemas are not enabled then it is required):
-  enable_system_tables_schema = false // WARNING: This feature is in public preview: https://docs.databricks.com/en/administration-guide/system-tables/index.html#enable-system-table-schemas
+  enable_system_tables_schema = true // WARNING: This feature is in public preview: https://docs.databricks.com/en/administration-guide/system-tables/index.html#enable-system-table-schemas
 
   // Solution Accelerator - Security Analysis Tool (optional):
   enable_sat_boolean = false // WARNING: Security analysis tool spins-up jobs and clusters. More information here: https://github.com/databricks-industry-solutions/security-analysis-tool/tree/main
