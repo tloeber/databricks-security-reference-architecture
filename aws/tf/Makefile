@@ -4,3 +4,6 @@ include .env
 
 authenticate-databricks:
 	databricks auth login --host https://accounts.cloud.databricks.com --account-id ${DATABRICKS_ACCOUNT_ID}
+
+infracost:
+	infracost breakdown --path .

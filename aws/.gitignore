@@ -42,6 +42,7 @@ override.tf.json
 # IntelliJ
 .idea/
 
+
 # Custom rules
 # =============
 
@@ -51,3 +52,8 @@ untracked.*.tfvars
 # Exclude specific env vars, except for template file
 *.env
 !*.env.template
+
+
+# Plugins
+# =======
+tf/.infracost/
